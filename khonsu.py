@@ -84,7 +84,7 @@ async def task():
     await bot.wait_until_ready()
 
     for chan in config['live_scores_channels']:
-        c = bot.get_channel(chan)
+        c = bot.get_channel(int(chan))
         if c:
             live_scores_channel.append(c)
             print('Added {}@{} for live scores'.format(c.name, 'FantasyPL'))
@@ -92,7 +92,7 @@ async def task():
             print('Couldn\'t find channel {}'.format(chan))
 
     for chan in config['price_changes_channels']:
-        c = bot.get_channel(chan)
+        c = bot.get_channel(int(chan))
         if c:
             price_changes_channel.append(c)
             print('Added {}@{} for price changes'.format(c.name, 'FantasyPL'))
@@ -100,7 +100,7 @@ async def task():
             print('Couldn\'t find channel {}'.format(chan))
 
     for chan in config['team_news_channels']:
-        c = bot.get_channel(chan)
+        c = bot.get_channel(int(chan))
         if c:
             team_news_channel.append(c)
             print('Added {}@{} for team news'.format(c.name, 'FantasyPL'))
@@ -108,7 +108,7 @@ async def task():
             print('Couldn\'t find channel {}'.format(chan))
 
     for chan in config['stats_channels']:
-        c = bot.get_channel(chan)
+        c = bot.get_channel(int(chan))
         if c:
             stats_channel.append(c)
             print('Added {}@{} for stats'.format(c.name, 'FantasyPL'))
