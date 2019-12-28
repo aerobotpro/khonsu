@@ -89,7 +89,7 @@ async def task():
             live_scores_channel.append(c)
             print('Added {}@{} for live scores'.format(c.name, 'FantasyPL'))
         else:
-            print('Couldn\'t find channel {}'.format(chan))
+            print('Live_scores: Couldn\'t find channel {}'.format(chan))
 
     for chan in config['price_changes_channels']:
         c = bot.get_channel(int(chan))
@@ -97,7 +97,7 @@ async def task():
             price_changes_channel.append(c)
             print('Added {}@{} for price changes'.format(c.name, 'FantasyPL'))
         else:
-            print('Couldn\'t find channel {}'.format(chan))
+            print('Price_changes: Couldn\'t find channel {}'.format(chan))
 
     for chan in config['team_news_channels']:
         c = bot.get_channel(int(chan))
@@ -105,7 +105,7 @@ async def task():
             team_news_channel.append(c)
             print('Added {}@{} for team news'.format(c.name, 'FantasyPL'))
         else:
-            print('Couldn\'t find channel {}'.format(chan))
+            print('Team_news: Couldn\'t find channel {}'.format(chan))
 
     for chan in config['stats_channels']:
         c = bot.get_channel(int(chan))
@@ -113,7 +113,7 @@ async def task():
             stats_channel.append(c)
             print('Added {}@{} for stats'.format(c.name, 'FantasyPL'))
         else:
-            print('Couldn\'t find channel {}'.format(chan))
+            print('Stats: Couldn\'t find channel {}'.format(chan))
 
     start_time = Timestamp.fromtimestamp(get_ntp_time()).replace(tzinfo=timezone.utc)
 
@@ -233,7 +233,7 @@ async def get_latest_fixtures():
     if latest_event_id is None:
         return
 
-    async with httpx.AsyncClient() as async_client:
+    async with httpx.Client(backend='asyncio') as async_client:
         r = await async_client.get('https://fantasy.premierleague.com/api/fixtures/?event={}#/'.format(latest_event_id))
     
     get_event_fixtures(r.json())
@@ -251,7 +251,7 @@ async def send_url(chan, url, fileName=None, retry_count=0):
         fileName = url2filename(url)
 
     try:
-        async with httpx.AsyncClient() as async_client:
+        async with httpx.Client(backend='asyncio') as async_client:
             r = await async_client.get(url)
 
             await chan.send(file=discord.File(BytesIO(await r.read()), filename=fileName))
@@ -526,3 +526,4 @@ async def on_message(m):
 
 bot.loop.create_task(task())
 bot.run(config['discord_token'])
+
