@@ -179,12 +179,12 @@ async def get_all_fixtures():
     fixtures = {}
     event_ids = deque([])
 
-    async with httpx.AsyncClient() as async_client:
+    async with httpx.Client(backend='asyncio') as async_client:
         r = await async_client.get('https://fantasy.premierleague.com/api/bootstrap-static/#/')
 
     bootstrap = r.json()
     
-    async with httpx.AsyncClient() as async_client:
+    async with httpx.Client(backend='asyncio') as async_client:
         r = await async_client.get('https://fantasy.premierleague.com/api/fixtures/#/')
 
     all_matches = r.json()
